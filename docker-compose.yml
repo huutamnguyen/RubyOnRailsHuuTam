@@ -1,0 +1,25 @@
+version: '2'
+services:
+  db:
+    container_name: engineproject_db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: huutam
+      MYSQL_DATABASE: engine_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: huutam
+    ports:
+      - "3306:3306"
+  app:
+    container_name: engineproject_web
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - ".:/engineProject"
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+    links:
+      - db
